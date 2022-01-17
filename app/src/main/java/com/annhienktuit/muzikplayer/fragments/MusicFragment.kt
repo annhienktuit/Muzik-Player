@@ -29,7 +29,6 @@ class MusicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_music, container, false)
         attachView(view)
         val context = container!!.context
-        val fragmentManager = (activity as FragmentActivity).supportFragmentManager
         val adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager){tab, position ->

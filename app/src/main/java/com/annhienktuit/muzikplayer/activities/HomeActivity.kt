@@ -1,26 +1,19 @@
 package com.annhienktuit.muzikplayer.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.annhienktuit.muzikplayer.R
-import com.annhienktuit.muzikplayer.fragments.LocalMusicFragment
 import com.annhienktuit.muzikplayer.fragments.MusicFragment
-import com.annhienktuit.muzikplayer.fragments.OnlineMusicFragment
 import com.annhienktuit.muzikplayer.fragments.VideoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-import androidx.annotation.NonNull
-
-
-
-
 class HomeActivity : AppCompatActivity() {
-    val fragmentMusic: Fragment = MusicFragment()
-    val fragmentVideo: Fragment = VideoFragment()
-    val fm: FragmentManager = supportFragmentManager
-    var activeFragment: Fragment = fragmentMusic
+    private val fragmentMusic: Fragment = MusicFragment()
+    private val fragmentVideo: Fragment = VideoFragment()
+    private val fm: FragmentManager = supportFragmentManager
+    private var activeFragment: Fragment = fragmentMusic
 
     private lateinit var bottomNav: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
