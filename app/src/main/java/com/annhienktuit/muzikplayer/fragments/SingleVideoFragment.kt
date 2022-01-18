@@ -32,7 +32,10 @@ class SingleVideoFragment : Fragment {
     lateinit var httpDataSourceFactory: HttpDataSource.Factory
     lateinit var defaultDataSourceFactory: DefaultDataSource.Factory
     lateinit var cacheDataSourceFactory: DataSource.Factory
-    val TAG = "VideoPlayerFragment" + this.id
+    private val loadControl: LoadControl = DefaultLoadControl.Builder()
+        .setBufferDurationsMs(1024, 128 * 1024, 1024, 1024)
+        .build()
+    private val TAG = "VideoPlayerFragment" + this.id
     constructor(mediaItem: MediaItem){
         this.mediaItem = mediaItem
     }
@@ -49,6 +52,7 @@ class SingleVideoFragment : Fragment {
         val view = inflater.inflate(R.layout.fragment_single_video, container, false)
         val context = view.context
         playerView = view.findViewById(R.id.videoSliderView)
+        prepareDataSource(context)
         createNewPlayerInstance(context)
         preparePlayer(mediaItem)
         startPlayer()
@@ -56,21 +60,19 @@ class SingleVideoFragment : Fragment {
     }
 
     override fun onPause() {
-        pausePlayer()
+        //pausePlayer()
+        releasePlayer()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
         context?.let { createNewPlayerInstance(it) }
+        preparePlayer(mediaItem)
         startPlayer()
     }
 
     private fun createNewPlayerInstance(context: Context) {
-        prepareDataSource(context)
-        val loadControl: LoadControl = DefaultLoadControl.Builder()
-            .setBufferDurationsMs(1024, 128 * 1024, 1024, 1024)
-            .build()
         exoPlayer = ExoPlayer.Builder(context)
             .setMediaSourceFactory(DefaultMediaSourceFactory(cacheDataSourceFactory))
             .setLoadControl(loadControl)
@@ -88,6 +90,7 @@ class SingleVideoFragment : Fragment {
 
     private fun startPlayer() {
         Log.i(TAG, "StartPlayer")
+        Log.i("Nhiennha ",exoPlayer.toString())
         exoPlayer!!.prepare()
         exoPlayer!!.playWhenReady = true
     }
@@ -109,6 +112,13 @@ class SingleVideoFragment : Fragment {
         exoPlayer!!.seekTo(1)
         exoPlayer!!.pause()
         exoPlayer!!.playWhenReady = false
+    }
+
+    private fun releasePlayer(){
+        Log.i(TAG,"ReleasePlayer")
+        exoPlayer!!.seekTo(0)
+        exoPlayer!!.release()
+        exoPlayer = null
     }
 
 }
