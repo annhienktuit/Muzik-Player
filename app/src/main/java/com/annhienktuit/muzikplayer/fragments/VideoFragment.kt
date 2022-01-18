@@ -30,7 +30,7 @@ class VideoFragment : Fragment() {
     }
 
     private fun initVideoData() {
-        val client = RetrofitClient(context!!)
+        val client = RetrofitClient(requireContext(),"https://61e52105595afe00176e5333.mockapi.io")
         val call = client.getVideoService().getAllVideos
         call.enqueue(object : Callback<List<VerticalVideo>> {
             @SuppressLint("NotifyDataSetChanged")
@@ -38,7 +38,7 @@ class VideoFragment : Fragment() {
                 call: Call<List<VerticalVideo>>,
                 response: Response<List<VerticalVideo>>
             ) {
-                if(response?.body() == null){
+                if(response.body() == null){
                     Log.i("Nhiennha ","Null")
                     return
                 }

@@ -10,7 +10,8 @@ import retrofit2.Retrofit
 import java.io.File
 
 
-class RetrofitClient(context: Context) {
+class RetrofitClient(context: Context, baseURL: String) {
+    val BASE_URL = baseURL
     private var retrofit: Retrofit? = null
     val cacheSize = 5 * 1024 * 1024
     val retroCacheDir = File(context.cacheDir, "retrofit")
@@ -29,7 +30,7 @@ class RetrofitClient(context: Context) {
     fun getVideoService():GetVideoService{
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl("https://61e52105595afe00176e5333.mockapi.io")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
