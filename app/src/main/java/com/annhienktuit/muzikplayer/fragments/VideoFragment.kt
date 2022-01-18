@@ -46,7 +46,7 @@ class VideoFragment : Fragment() {
                     val mediaItem = MediaItem.fromUri(video.url)
                     listMediaItem.add(mediaItem)
                 }
-                videoViewPager?.adapter?.notifyDataSetChanged()
+                videoViewPager.adapter?.notifyDataSetChanged()
             }
 
             override fun onFailure(call: Call<List<VerticalVideo>>, t: Throwable) {
@@ -62,7 +62,7 @@ class VideoFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_video, container, false)
         val context = container!!.context
         videoViewPager = view.findViewById(R.id.viewPagerVideo)
-        pagerAdapter = VideoSliderAdapter(childFragmentManager, lifecycle, listMediaItem)
+        pagerAdapter = VideoSliderAdapter(context,childFragmentManager, lifecycle, listMediaItem)
         videoViewPager.adapter = pagerAdapter
         initVideoData()
         return view

@@ -105,6 +105,7 @@ class SingleVideoFragment : Fragment {
             .setCache(simpleCache)
             .setUpstreamDataSourceFactory(httpDataSourceFactory)
             .setCacheReadDataSourceFactory(FileDataSource.Factory())
+            .setCacheWriteDataSinkFactory(null)
     }
 
     private fun pausePlayer() {
