@@ -20,7 +20,7 @@ class RetrofitClient(context: Context, baseURL: String) {
         .cache(retroCache)
         .addInterceptor { chain ->
             var request = chain.request()
-            request = if (MuzikUtils.haveInternetConnection(context))
+            request = if (MuzikUtils.isInternetAvailable(context))
                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
             else
                 request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build() // 7 days
@@ -36,5 +36,16 @@ class RetrofitClient(context: Context, baseURL: String) {
                 .build()
         }
         return retrofit!!.create(GetVideoService::class.java)
+    }
+
+    fun getOnlineTrackService():GetTrackService{
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build()
+        }
+        return retrofit!!.create(GetTrackService::class.java)
     }
 }

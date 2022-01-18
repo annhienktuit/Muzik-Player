@@ -51,7 +51,7 @@ class VideoFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<VerticalVideo>>, t: Throwable) {
-                Log.i("Nhiennha ", t.toString())
+                Log.i("Nhiennha ", t.message.toString())
             }
         })
     }
