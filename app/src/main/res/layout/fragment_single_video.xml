@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +11,12 @@
         android:id="@+id/videoSliderView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         app:show_buffering="when_playing"
-        app:show_shuffle_button="false"/>
+        app:hide_on_touch="true"
+        app:show_timeout="2000"
+        app:show_shuffle_button="false"
+        app:buffered_color="@color/spot_green"
+        app:controller_layout_id="@layout/custom_video_controller"/>
 
-</FrameLayout>
+</LinearLayout>

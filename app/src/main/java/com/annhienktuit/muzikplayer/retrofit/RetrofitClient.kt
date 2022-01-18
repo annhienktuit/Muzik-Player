@@ -22,7 +22,7 @@ class RetrofitClient(context: Context) {
             request = if (MuzikUtils.haveInternetConnection(context))
                 request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
             else
-                request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build()
+                request.newBuilder().header("Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7).build() // 7 days
             chain.proceed(request)
         }.build()
 
@@ -36,14 +36,4 @@ class RetrofitClient(context: Context) {
         }
         return retrofit!!.create(GetVideoService::class.java)
     }
-    //    val getVideoService: GetVideoService
-//        get() {
-//            if (retrofit == null) {
-//                retrofit = Retrofit.Builder()
-//                    .baseUrl("https://61e52105595afe00176e5333.mockapi.io")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build()
-//            }
-//            return retrofit!!.create(GetVideoService::class.java)
-//        }
 }

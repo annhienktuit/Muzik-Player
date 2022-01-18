@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.utils.CacheUtils
 import com.google.android.exoplayer2.DefaultLoadControl
@@ -60,15 +61,15 @@ class SingleVideoFragment : Fragment {
     }
 
     override fun onPause() {
-        //pausePlayer()
-        releasePlayer()
+        pausePlayer()
+        //releasePlayer()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        context?.let { createNewPlayerInstance(it) }
-        preparePlayer(mediaItem)
+//        context?.let { createNewPlayerInstance(it) }
+//        preparePlayer(mediaItem)
         startPlayer()
     }
 
