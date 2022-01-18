@@ -50,13 +50,13 @@ class SingleVideoFragment : Fragment {
         val context = view.context
         playerView = view.findViewById(R.id.videoSliderView)
         createNewPlayerInstance(context)
-        preparePlayer(context, mediaItem)
+        preparePlayer(mediaItem)
         startPlayer()
         return view
     }
 
     override fun onPause() {
-        pausePlayer();
+        pausePlayer()
         super.onPause()
     }
 
@@ -66,7 +66,7 @@ class SingleVideoFragment : Fragment {
         startPlayer()
     }
 
-    fun createNewPlayerInstance(context: Context) {
+    private fun createNewPlayerInstance(context: Context) {
         prepareDataSource(context)
         val loadControl: LoadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(1024, 128 * 1024, 1024, 1024)
@@ -78,7 +78,7 @@ class SingleVideoFragment : Fragment {
             .build()
     }
 
-    fun preparePlayer(context: Context, mediaItem: MediaItem?) {
+    private fun preparePlayer(mediaItem: MediaItem?) {
         val mediaSource: MediaSource = ProgressiveMediaSource.Factory(cacheDataSourceFactory)
             .createMediaSource(mediaItem!!)
         exoPlayer!!.playWhenReady = false
@@ -86,7 +86,7 @@ class SingleVideoFragment : Fragment {
         playerView!!.player = exoPlayer
     }
 
-    fun startPlayer() {
+    private fun startPlayer() {
         Log.i(TAG, "StartPlayer")
         exoPlayer!!.prepare()
         exoPlayer!!.playWhenReady = true
@@ -102,21 +102,13 @@ class SingleVideoFragment : Fragment {
             .setCache(simpleCache)
             .setUpstreamDataSourceFactory(httpDataSourceFactory)
             .setCacheReadDataSourceFactory(FileDataSource.Factory())
-            .setCacheWriteDataSinkFactory(null)
     }
 
-    fun pausePlayer() {
+    private fun pausePlayer() {
         Log.i(TAG, "PausePlayer")
-        exoPlayer!!.seekTo(0)
+        exoPlayer!!.seekTo(1)
         exoPlayer!!.pause()
-    }
-
-    fun releasePlayer() {
-        Log.i(TAG, "ReleasePlayer")
         exoPlayer!!.playWhenReady = false
-        exoPlayer!!.stop()
-        exoPlayer!!.release()
-        exoPlayer = null
     }
 
 }

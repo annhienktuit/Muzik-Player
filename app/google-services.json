@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1089968747332",
+    "project_id": "muzik-player",
+    "storage_bucket": "muzik-player.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089968747332:android:afb87458277d50c2eb1d11",
+        "android_client_info": {
+          "package_name": "com.annhienktuit.muzikplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089968747332-tmugb1a2a54siq4d9t1jsve19hrb10af.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.annhienktuit.muzikplayer",
+            "certificate_hash": "cf027499de73d9d073a524a14332a5e129f9d952"
+          }
+        },
+        {
+          "client_id": "1089968747332-9s4ej0vd9983ooudamlh08men578i5r5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4rjWaaeYUBiRKHywxIGMD7fEYktTQv3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089968747332-9s4ej0vd9983ooudamlh08men578i5r5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
