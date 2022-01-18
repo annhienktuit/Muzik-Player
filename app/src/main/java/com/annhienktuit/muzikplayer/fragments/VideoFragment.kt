@@ -30,7 +30,8 @@ class VideoFragment : Fragment() {
     }
 
     private fun initVideoData() {
-        val call = RetrofitClient.getVideoService.getAllVideos
+        val client = RetrofitClient(context!!)
+        val call = client.getVideoService().getAllVideos
         call.enqueue(object : Callback<List<VerticalVideo>> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
