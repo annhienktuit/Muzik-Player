@@ -22,7 +22,7 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
-                android:id="@+id/imgAlbumArtwork"
+                android:id="@+id/imgTrackArtwork"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:src="@drawable/sample_daily" />
@@ -31,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/tvAlbumTitle"
+            android:id="@+id/tvTrackTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Something Just like this"
@@ -42,27 +42,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cvArtwork" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/graphikmedium"
-            android:text="Album - "
-            android:textColor="@color/spot_primary"
-            android:textSize="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAlbumTitle" />
 
         <TextView
-            android:id="@+id/tvAlbumArtist"
+            android:id="@+id/tvTrackArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/graphikmedium"
             android:text="The Chainsmoker"
             android:textColor="@color/spot_primary"
             android:textSize="12dp"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/tvAlbumTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTrackTitle" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

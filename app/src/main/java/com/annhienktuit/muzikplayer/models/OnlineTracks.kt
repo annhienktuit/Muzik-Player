@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class OnlineTracks(
     @SerializedName("data")
-    private val tracks: ArrayList<Track>
+    val tracks: ArrayList<Track>
 )
 

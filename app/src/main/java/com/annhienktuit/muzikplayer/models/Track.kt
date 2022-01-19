@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName
 
 data class Track(
     @SerializedName("id")
-    private val id: Int = 0,
+    var id: Int = 0,
 
     @SerializedName("title")
-    private val title: String? = null,
+    var title: String,
 
     @SerializedName("preview")
-    private val trackURL: String? = null,
+    var trackURL: String,
 
     @SerializedName("artist")
-    private val artist: Artist,
+    var artist: Artist,
 
     @SerializedName("album")
     var album: Album
@@ -28,3 +28,5 @@ data class Album(
     @SerializedName("cover_big")
     var artworkURL: String
 )
+
+//Sample API scheme: https://api.deezer.com/playlist/2159765062/tracks
