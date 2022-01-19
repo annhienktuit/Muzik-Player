@@ -28,10 +28,10 @@ class LocalMusicFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_local_music, container, false)
-//        listLocalSong = getListFiles(Environment.getExternalStorageDirectory())
-//        for(file in listLocalSong){
-//            Log.i("Nhiennha ",file.path)
-//        }
+        listLocalSong = getListFiles(Environment.getExternalStorageDirectory())
+        for(file in listLocalSong){
+            Log.i("Nhiennha ",file.path)
+        }
         return view
     }
 
