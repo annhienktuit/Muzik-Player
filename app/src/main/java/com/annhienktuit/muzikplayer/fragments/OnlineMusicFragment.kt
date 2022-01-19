@@ -2,6 +2,7 @@ package com.annhienktuit.muzikplayer.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.adapters.TrackListAdapter
 import com.annhienktuit.muzikplayer.adapters.TrendingListAdapter
@@ -31,7 +33,7 @@ class OnlineMusicFragment : Fragment() {
     private var chartTrackList = ArrayList<Track>()
     private lateinit var recyclerViewTrendingTracks: RecyclerView
     private lateinit var trendingTrackAdapter: RecyclerView.Adapter<TrendingListAdapter.ViewHolder>
-
+    private lateinit var swipeContainer: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -53,6 +55,9 @@ class OnlineMusicFragment : Fragment() {
         recyclerViewTrendingTracks.adapter = trendingTrackAdapter
         initTrackData()
         initChartData()
+        swipeContainer.setOnRefreshListener {
+            initChartData()
+        }
         return view
     }
 
@@ -87,11 +92,16 @@ class OnlineMusicFragment : Fragment() {
         val client = RetrofitClient(requireContext(), "https://api.deezer.com")
         val call = client.getChartService().getChartTracks()
         call.enqueue(object : Callback<TrendingTracks> {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
                 call: Call<TrendingTracks>,
                 response: Response<TrendingTracks>
             ) {
                 if (response.body() != null) {
+                    //refresh handle
+                    chartTrackList.clear()
+                    recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
+                    //re-update
                     chartTracks = response.body()!!
                     for(track in chartTracks.tracks.tracks){
                         chartTrackList.add(track)
@@ -108,11 +118,13 @@ class OnlineMusicFragment : Fragment() {
             }
 
         })
+        swipeContainer.isRefreshing = false
     }
 
     private fun attachView(view: View) {
         recyclerviewTopTrack = view.findViewById(R.id.recyclerViewTopTracks)
         recyclerViewTrendingTracks = view.findViewById(R.id.recyclerviewTrending)
+        swipeContainer = view.findViewById(R.id.swipeContainer)
     }
 
 }

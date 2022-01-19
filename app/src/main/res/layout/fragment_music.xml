@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/spot_bg"
+    android:orientation="vertical"
     tools:context=".fragments.MusicFragment">
 
     <com.google.android.material.tabs.TabLayout
@@ -16,13 +16,14 @@
         app:tabIconTint="@color/spot_bg"
         app:tabIndicatorColor="@color/spot_green"
         app:tabSelectedTextColor="@color/spot_green"
-        app:tabTextColor="@color/white"/>
+        app:tabTextColor="@color/white" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
 
 </LinearLayout>
+

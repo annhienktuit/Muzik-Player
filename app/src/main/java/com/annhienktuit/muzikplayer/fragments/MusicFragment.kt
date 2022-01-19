@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.annhienktuit.muzikplayer.R
@@ -17,6 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class MusicFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
+
     val listTitle = arrayOf("Online Music", "Local Music")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
