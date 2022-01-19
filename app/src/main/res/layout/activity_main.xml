@@ -22,6 +22,8 @@
         android:background="@color/spot_miniplayer"
         app:itemIconTint="@color/navbar_color"
         app:itemTextColor="@color/navbar_color"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_navigation"
+        app:itemTextAppearanceActive="@style/GraphikFontTextStyle"
+        app:itemTextAppearanceInactive="@style/GraphikFontTextStyle"/>
 
 </RelativeLayout>

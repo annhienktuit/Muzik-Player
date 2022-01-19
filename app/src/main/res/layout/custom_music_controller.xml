@@ -60,7 +60,7 @@
             android:id="@id/exo_prev"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/ic_prev"/>
+            android:background="@drawable/ic_prev" />
 
         <Button
             android:id="@id/exo_play"

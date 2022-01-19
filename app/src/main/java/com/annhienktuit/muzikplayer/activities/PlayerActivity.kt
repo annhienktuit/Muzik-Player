@@ -1,6 +1,7 @@
 package com.annhienktuit.muzikplayer.activities
 
 import android.graphics.Color
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Window
@@ -62,7 +63,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun setPaletteBackground(index: Int) {
         if(MuzikUtils.isInternetAvailable(this)){
-            val bitmap = ConvertUrlToBitmapAsync().execute(listArtwork[index]).get()
+            val bitmap = ConvertUrlToBitmapAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listArtwork[index]).get()
             val builder = Palette.Builder(bitmap)
             val palette = builder.generate { palette: Palette? ->
                 if (palette != null) {

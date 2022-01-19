@@ -5,6 +5,7 @@
     android:id="@+id/rlPlayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/spot_bg"
     tools:context=".activities.PlayerActivity"
     tools:targetApi="28">
 
@@ -46,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:buffered_color="@color/white"
-        app:scrubber_color="@color/spot_green"
+        app:controller_layout_id="@layout/custom_music_controller"
         app:played_color="@color/spot_green"
-        app:show_timeout="0"
-        app:controller_layout_id="@layout/custom_music_controller"/>
+        app:scrubber_color="@color/spot_green"
+        app:show_timeout="0" />
 </RelativeLayout>

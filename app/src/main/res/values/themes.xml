@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MuzikPlayer" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.MuzikPlayer" parent="Theme.AppCompat.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/spot_bg</item>
+        <item name="android:fontFamily">@font/graphikmedium</item>
     </style>
 
     <style name="AppTheme.Draggable" parent="Theme.AppCompat.Light.NoActionBar">
@@ -24,4 +25,7 @@
         <item name="android:windowBackground">@color/spot_bg</item>
     </style>
 
+    <style name="GraphikFontTextStyle">
+        <item name="android:fontFamily">@font/graphiklight</item>
+    </style>
 </resources>
