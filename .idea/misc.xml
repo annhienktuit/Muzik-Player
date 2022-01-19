@@ -16,6 +16,8 @@
         <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/layout/fragment_single_video.xml" value="0.36666666666666664" />
         <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/layout/fragment_video.xml" value="0.264" />
         <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/layout/track_item.xml" value="0.4" />
+        <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/layout/trending_album_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/layout/trending_track_item.xml" value="0.36666666666666664" />
         <entry key="..\:/UIT/MuzikPlayer/app/src/main/res/menu/bottom_navigation.xml" value="0.4" />
       </map>
     </option>

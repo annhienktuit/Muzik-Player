@@ -48,4 +48,15 @@ class RetrofitClient(context: Context, baseURL: String) {
         }
         return retrofit!!.create(GetTrackService::class.java)
     }
+
+    fun getChartService():GetChartService{
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build()
+        }
+        return retrofit!!.create(GetChartService::class.java)
+    }
 }
