@@ -1,6 +1,7 @@
 package com.annhienktuit.muzikplayer.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.annhienktuit.muzikplayer.R
+import com.annhienktuit.muzikplayer.activities.PlayerActivity
 import com.annhienktuit.muzikplayer.models.Track
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -43,6 +45,33 @@ class TrackListAdapter(context: Context, trackList: ArrayList<Track>) :
         var trackArtist: TextView = itemView.findViewById(R.id.tvTrackArtist)
         var trackArtwork: ImageView = itemView.findViewById(R.id.imgTrackArtwork)
 
-    }
+        init {
+            var listID = ArrayList<Int>()
+            var listURL = ArrayList<String>()
+            var listArtwork = ArrayList<String>()
+            var listTitle = ArrayList<String>()
+            var listArtist = ArrayList<String>()
+            for (item in trackList) {
+                listID.add(item.id)
+                listURL.add(item.trackURL)
+                listArtwork.add(item.album.artworkURL)
+                listTitle.add(item.title)
+                listArtist.add(item.artist.artistName)
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context, PlayerActivity::class.java)
+                    val currentIndex = bindingAdapterPosition
+                    intent.putExtra("listID", listID)
+                    intent.putExtra("listURL", listURL)
+                    intent.putExtra("listArtwork", listArtwork)
+                    intent.putExtra("listTitle", listTitle)
+                    intent.putExtra("listArtist", listArtist)
+                    intent.putExtra("Index", currentIndex)
+                    itemView.context.startActivity(intent)
 
+                }
+            }
+        }
+    }
 }
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlPlayer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.PlayerActivity"
+    tools:targetApi="28">
+
+
+    <ImageView
+        android:id="@+id/imgArtWork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:src="@drawable/onboard_cover" />
+
+    <TextView
+        android:id="@+id/tvSongTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgArtWork"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/graphikbold"
+        android:singleLine="true"
+        android:text="From me to You"
+        android:textSize="22sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/tvArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/tvSongTitle"
+        android:text="The Beatles"
+        android:fontFamily="@font/graphiksemibold"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textColor="@color/white"/>
+
+    <com.google.android.exoplayer2.ui.PlayerControlView
+        android:id="@+id/playerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:buffered_color="@color/white"
+        app:scrubber_color="@color/spot_green"
+        app:played_color="@color/spot_green"
+        app:show_timeout="0"
+        app:controller_layout_id="@layout/custom_music_controller"/>
+</RelativeLayout>
