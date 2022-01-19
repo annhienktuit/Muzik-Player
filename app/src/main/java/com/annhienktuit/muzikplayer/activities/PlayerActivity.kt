@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.palette.graphics.Palette
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.asynctasks.ConvertUrlToBitmapAsync
+import com.annhienktuit.muzikplayer.utils.MuzikUtils
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.ui.PlayerControlView
@@ -60,11 +61,13 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun setPaletteBackground(index: Int) {
-        val bitmap = ConvertUrlToBitmapAsync().execute(listArtwork[index]).get()
-        val builder = Palette.Builder(bitmap)
-        val palette = builder.generate { palette: Palette? ->
-            if (palette != null) {
-                palette.dominantSwatch ?.let { rlPlayer.setBackgroundColor(it.rgb) }
+        if(MuzikUtils.isInternetAvailable(this)){
+            val bitmap = ConvertUrlToBitmapAsync().execute(listArtwork[index]).get()
+            val builder = Palette.Builder(bitmap)
+            val palette = builder.generate { palette: Palette? ->
+                if (palette != null) {
+                    palette.dominantSwatch ?.let { rlPlayer.setBackgroundColor(it.rgb) }
+                }
             }
         }
     }

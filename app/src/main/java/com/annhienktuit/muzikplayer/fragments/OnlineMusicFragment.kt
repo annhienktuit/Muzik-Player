@@ -31,6 +31,7 @@ class OnlineMusicFragment : Fragment() {
     private var chartTrackList = ArrayList<Track>()
     private lateinit var recyclerViewTrendingTracks: RecyclerView
     private lateinit var trendingTrackAdapter: RecyclerView.Adapter<TrendingListAdapter.ViewHolder>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
