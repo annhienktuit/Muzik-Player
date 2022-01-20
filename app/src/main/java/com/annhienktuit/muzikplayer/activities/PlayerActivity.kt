@@ -1,20 +1,33 @@
 package com.annhienktuit.muzikplayer.activities
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.graphics.Color
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.IBinder
+import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.palette.graphics.Palette
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.asynctasks.ConvertUrlToBitmapAsync
+import com.annhienktuit.muzikplayer.asynctasks.PreLoadingMusicCache
+import com.annhienktuit.muzikplayer.models.PreCacheParams
+import com.annhienktuit.muzikplayer.services.MusicService
 import com.annhienktuit.muzikplayer.utils.MuzikUtils
+import com.annhienktuit.muzikplayer.utils.MuzikUtils.isServiceRunning
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerControlView
 
 class PlayerActivity : AppCompatActivity() {
@@ -31,6 +44,22 @@ class PlayerActivity : AppCompatActivity() {
     private var listTitle = ArrayList<String>()
     private var listArtist = ArrayList<String>()
     private var currentIndex = 0
+    private val connection = object: ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            if (service is MusicService.PlayerServiceBinder){
+                Log.i("Nhiennha ","Service Connected")
+                exoPlayer = service.getExoPlayerInstance()
+                currentIndexFromService = service.getCurrentIndex()
+                preCacheMedia()
+                addListener()
+                playerView.player = service.getExoPlayerInstance()
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window: Window = window
@@ -39,6 +68,12 @@ class PlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_player)
         getDataFromBundle()
         attachView()
+        val intent = Intent(this, MusicService::class.java)
+        sendDataToService(intent)
+        if(!isServiceRunning("MusicService")){
+            startService(intent)
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
         setPaletteBackground(currentIndex)
         tvSongTitle.text = listTitle[currentIndex]
         tvArtist.text = listArtist[currentIndex]
@@ -61,6 +96,15 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
+    private fun sendDataToService(intent: Intent) {
+        intent.putExtra("listID",listID)
+        intent.putExtra("listURL",listURL)
+        intent.putExtra("listArtwork",listArtwork)
+        intent.putExtra("listTitle",listTitle)
+        intent.putExtra("listArtist",listArtist)
+        intent.putExtra("Index",currentIndex)
+    }
+
     private fun setPaletteBackground(index: Int) {
         if(MuzikUtils.isInternetAvailable(this)){
             val bitmap = ConvertUrlToBitmapAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listArtwork[index]).get()
@@ -68,6 +112,58 @@ class PlayerActivity : AppCompatActivity() {
             val palette = builder.generate { palette: Palette? ->
                 if (palette != null) {
                     palette.dominantSwatch ?.let { rlPlayer.setBackgroundColor(it.rgb) }
+                }
+            }
+        }
+    }
+
+    private fun addListener() {
+        exoPlayer?.addListener(object: Player.Listener{
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                super.onPositionDiscontinuity(oldPosition, newPosition, reason)
+                if(MuzikUtils.isInternetAvailable(applicationContext)){
+                    preCacheMedia()
+                    setPaletteBackground(newPosition.mediaItemIndex)
+                }
+                Glide.with(applicationContext)
+                    .load(listArtwork[newPosition.mediaItemIndex])
+                    .placeholder(R.drawable.ic_logo)
+                    .into(imgArtWork)
+                tvArtist.text = listArtist[newPosition.mediaItemIndex]
+                tvSongTitle.text = listTitle[newPosition.mediaItemIndex]
+            }
+        })
+    }
+
+    private fun preCacheMedia(){
+        val timer = object: CountDownTimer(5000, 1000){
+            override fun onTick(millisUntilFinished: Long) {
+            }
+            override fun onFinish() {
+                doCaching()
+            }
+        }.start()
+    }
+
+    private fun doCaching(){
+        var idx = exoPlayer?.currentMediaItemIndex
+        if (idx != null) {
+            AsyncTask.execute {
+                for (i in idx until idx + 5) {
+                    if (MuzikUtils.isInternetAvailable(this)) {
+                        val params = PreCacheParams(listID[idx], listURL[idx])
+                        val cacheTask = PreLoadingMusicCache()
+                        cacheTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params)
+                        idx++
+                        if (idx >= listID.size) break
+                    } else {
+                        Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
+                        break
+                    }
                 }
             }
         }

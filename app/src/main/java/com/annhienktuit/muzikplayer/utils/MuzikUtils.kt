@@ -1,8 +1,11 @@
 package com.annhienktuit.muzikplayer.utils
 
+import android.app.Activity
+import android.app.ActivityManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import androidx.appcompat.app.AppCompatActivity
 
 object MuzikUtils {
 
@@ -26,5 +29,18 @@ object MuzikUtils {
         if(!isInternetAvailable(context)) return false
         val command = "ping -c 1 google.com"
         return Runtime.getRuntime().exec(command).waitFor() == 0
+    }
+
+    fun Activity.isServiceRunning(serviceClassName: String?): Boolean {
+        val activityManager =
+            this.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
+        val services: List<ActivityManager.RunningServiceInfo> = activityManager.getRunningServices(
+            Int.MAX_VALUE)
+        for (runningServiceInfo in services) {
+            if (runningServiceInfo.service.className == serviceClassName) {
+                return true
+            }
+        }
+        return false
     }
 }

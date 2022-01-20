@@ -40,6 +40,12 @@
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
+        <service
+            android:name="com.annhienktuit.muzikplayer.services.MusicService"
+            android:enabled="true"
+            android:exported="true"
+            android:stopWithTask="false">
+        </service>
     </application>
 
 </manifest>

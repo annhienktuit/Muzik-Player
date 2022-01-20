@@ -10,6 +10,7 @@ import java.io.File
 class CacheUtils: Application() {
     companion object{
         lateinit var simpleCache: SimpleCache
+        lateinit var simpleMusicCache: SimpleCache
         const val exoPlayerCacheSize:Long = 200 * 1024 * 1024
         lateinit var leastRecentlyUsedCacheEvictor: LeastRecentlyUsedCacheEvictor
         lateinit var exoDatabaseProvider: StandaloneDatabaseProvider
@@ -19,8 +20,9 @@ class CacheUtils: Application() {
         super.onCreate()
         leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(exoPlayerCacheSize)
         exoDatabaseProvider = ExoDatabaseProvider(this)
-        val cacheDirectory = File(cacheDir.toString(), "video")
-        simpleCache = SimpleCache(cacheDirectory , leastRecentlyUsedCacheEvictor, exoDatabaseProvider)
-
+        val videoCacheDirectory = File(cacheDir.toString(), "video")
+        val musicCacheDirectory = File(cacheDir.toString(),"music")
+        simpleCache = SimpleCache(videoCacheDirectory , leastRecentlyUsedCacheEvictor, exoDatabaseProvider)
+        simpleMusicCache = SimpleCache(musicCacheDirectory , leastRecentlyUsedCacheEvictor, exoDatabaseProvider)
     }
 }

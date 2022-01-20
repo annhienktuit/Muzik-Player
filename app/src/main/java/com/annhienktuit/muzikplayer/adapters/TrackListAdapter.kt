@@ -46,13 +46,13 @@ class TrackListAdapter(context: Context, trackList: ArrayList<Track>) :
         var trackArtwork: ImageView = itemView.findViewById(R.id.imgTrackArtwork)
 
         init {
-            var listID = ArrayList<Int>()
+            var listID = ArrayList<String>()
             var listURL = ArrayList<String>()
             var listArtwork = ArrayList<String>()
             var listTitle = ArrayList<String>()
             var listArtist = ArrayList<String>()
             for (item in trackList) {
-                listID.add(item.id)
+                listID.add(item.id.toString())
                 listURL.add(item.trackURL)
                 listArtwork.add(item.album.artworkURL)
                 listTitle.add(item.title)
@@ -60,6 +60,7 @@ class TrackListAdapter(context: Context, trackList: ArrayList<Track>) :
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, PlayerActivity::class.java)
                     val currentIndex = bindingAdapterPosition
+                    //TODO: Find solution for this
                     intent.putExtra("listID", listID)
                     intent.putExtra("listURL", listURL)
                     intent.putExtra("listArtwork", listArtwork)
