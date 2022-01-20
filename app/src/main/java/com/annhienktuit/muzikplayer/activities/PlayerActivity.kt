@@ -50,7 +50,9 @@ class PlayerActivity : AppCompatActivity() {
                 Log.i("Nhiennha ","Service Connected")
                 exoPlayer = service.getExoPlayerInstance()
                 currentIndexFromService = service.getCurrentIndex()
+                if(MuzikUtils.isInternetAvailable(this@PlayerActivity)){
                 preCacheMedia()
+                }
                 addListener()
                 playerView.player = service.getExoPlayerInstance()
             }
