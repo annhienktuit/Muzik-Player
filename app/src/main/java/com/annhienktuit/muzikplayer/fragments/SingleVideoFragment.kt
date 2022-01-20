@@ -25,8 +25,8 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 
 
-class SingleVideoFragment : Fragment {
-    private var mediaItem: MediaItem? = null
+class SingleVideoFragment(mediaItem: MediaItem) : Fragment() {
+    private var mediaItem: MediaItem? = mediaItem
     var playerView: PlayerView? = null
     var exoPlayer: ExoPlayer? = null
     var simpleCache: SimpleCache = CacheUtils.simpleCache
@@ -37,9 +37,6 @@ class SingleVideoFragment : Fragment {
         .setBufferDurationsMs(1024, 128 * 1024, 1024, 1024)
         .build()
     private val TAG = "VideoPlayerFragment" + this.id
-    constructor(mediaItem: MediaItem){
-        this.mediaItem = mediaItem
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +59,11 @@ class SingleVideoFragment : Fragment {
 
     override fun onPause() {
         pausePlayer()
-        //releasePlayer()
         super.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-//        context?.let { createNewPlayerInstance(it) }
-//        preparePlayer(mediaItem)
         startPlayer()
     }
 

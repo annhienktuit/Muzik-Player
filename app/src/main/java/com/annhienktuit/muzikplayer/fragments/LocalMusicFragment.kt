@@ -16,6 +16,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.annhienktuit.muzikplayer.activities.PlayerActivity
 import com.annhienktuit.muzikplayer.adapters.LocalListAdapter
 import com.annhienktuit.muzikplayer.adapters.TrackListAdapter
@@ -29,6 +30,7 @@ class LocalMusicFragment : Fragment() {
     private lateinit var recyclerViewLocalTrack:RecyclerView
     private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
     private lateinit var localTrackList: ArrayList<LocalTrack>
+    private lateinit var localSwipeContainer: SwipeRefreshLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -41,10 +43,16 @@ class LocalMusicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_local_music, container, false)
         val context = view.context
         recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
+        localSwipeContainer = view.findViewById(R.id.localSwipeContainer)
         localTrackList = getAllAudioFromDevice(context)
         localTrackAdapter = LocalListAdapter(context, localTrackList)
         recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
         recyclerViewLocalTrack.adapter = localTrackAdapter
+        localSwipeContainer.setOnRefreshListener {
+            localTrackList = getAllAudioFromDevice(context)
+            recyclerViewLocalTrack.adapter?.notifyDataSetChanged()
+            localSwipeContainer.isRefreshing = false
+        }
         return view
     }
 

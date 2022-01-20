@@ -28,7 +28,7 @@ class LocalListAdapter(context: Context, localTracksList: List<LocalTrack>) :
         holder.itemView.tag = localList[position]
         holder.localTrackTitle.text = track.title
         holder.localTrackArtist.text = track.artist
-        Glide.with(mContext).load(R.drawable.sample_daily).placeholder(R.drawable.sample_daily).into(holder.albumArt)
+        Glide.with(mContext).load(R.drawable.ic_logo).placeholder(R.drawable.ic_logo).into(holder.albumArt)
     }
 
     override fun getItemCount(): Int {

@@ -107,7 +107,6 @@ class OnlineMusicFragment : Fragment() {
                         chartTrackList.add(track)
                     }
                     recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
-
                 } else {
                     Log.i("Nhiennha ", "Null")
                 }
