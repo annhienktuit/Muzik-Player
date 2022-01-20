@@ -157,23 +157,29 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun doCaching(){
-        var idx = exoPlayer?.currentMediaItemIndex
-        if (idx != null) {
-            AsyncTask.execute {
-                for (i in idx until idx + 5) {
-                    if (MuzikUtils.isInternetAvailable(this)) {
-                        val params = PreCacheParams(listID[idx], listURL[idx])
-                        val cacheTask = PreLoadingMusicCache()
-                        cacheTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params)
-                        idx++
-                        if (idx >= listID.size) break
-                    } else {
-                        Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
-                        break
+        try {
+            var idx = exoPlayer?.currentMediaItemIndex
+            if (idx != null) {
+                AsyncTask.execute {
+                    for (i in idx until idx + 5) {
+                        if (MuzikUtils.isInternetAvailable(this)) {
+                            val params = PreCacheParams(listID[idx], listURL[idx])
+                            val cacheTask = PreLoadingMusicCache()
+                            cacheTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params)
+                            idx++
+                            if (idx >= listID.size) break
+                        } else {
+                            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
+                            break
+                        }
                     }
                 }
             }
         }
+        catch (e:Exception){
+            Log.e("Nhienha", e.printStackTrace().toString())
+        }
+
     }
 
     private fun attachView() {
