@@ -50,6 +50,7 @@ class PlayerActivity : AppCompatActivity() {
                 Log.i("Nhiennha ","Service Connected")
                 exoPlayer = service.getExoPlayerInstance()
                 currentIndexFromService = service.getCurrentIndex()
+                setNewTrackIndex(currentIndex)
                 if(MuzikUtils.isInternetAvailable(this@PlayerActivity)){
                 preCacheMedia()
                 }
@@ -105,6 +106,10 @@ class PlayerActivity : AppCompatActivity() {
         intent.putExtra("listTitle",listTitle)
         intent.putExtra("listArtist",listArtist)
         intent.putExtra("Index",currentIndex)
+    }
+
+    private fun setNewTrackIndex(index:Int){
+        exoPlayer?.seekTo(index, 0)
     }
 
     private fun setPaletteBackground(index: Int) {

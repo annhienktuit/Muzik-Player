@@ -54,11 +54,13 @@ class MusicService : Service() {
         getDataFromBundle(intent)
         initializePlayer()
         initializeNotification()
+        Log.i("Nhiennha","onBind")
         return PlayerServiceBinder()
     }
 
     override fun onCreate() {
         super.onCreate()
+        Log.i("Nhiennha","onCreate")
         val loadControl: LoadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(8 * 1024, 32 * 1024, 1024, 1024)
             .build()
@@ -70,10 +72,7 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-//        getDataFromBundle(intent)
-//        if(currentIndex != exoPlayer.currentMediaItemIndex){
-//            exoPlayer.seekTo(currentIndex, 0)
-//        }
+        Log.i("Nhiennha","onStartCommand")
         return START_STICKY
 
     }
@@ -88,22 +87,6 @@ class MusicService : Service() {
             listTitle = extras.getStringArrayList("listTitle") as ArrayList<String>
             currentIndex = extras.getInt("Index")
         }
-    }
-
-    private fun preCacheMedia() {
-        val timer = object : CountDownTimer(10000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-            }
-
-            override fun onFinish() {
-                val idx = exoPlayer.currentMediaItemIndex
-                for (i in idx until idx + 5) {
-                    val params = PreCacheParams(listID[idx], listURL[idx])
-                    val cacheTask = PreLoadingMusicCache()
-                    cacheTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params)
-                }
-            }
-        }.start()
     }
 
     private fun initializePlayer() {
@@ -232,7 +215,6 @@ class MusicService : Service() {
         val alarmService = applicationContext.getSystemService(ALARM_SERVICE) as AlarmManager
         alarmService[AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000] =
             restartServicePendingIntent
-        Toast.makeText(this, "Service removed", Toast.LENGTH_LONG).show()
         super.onTaskRemoved(rootIntent)
     }
 
