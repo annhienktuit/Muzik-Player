@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:src="@drawable/onboard_cover" />
+        android:src="@drawable/img_404" />
 
     <TextView
         android:id="@+id/tvSongTitle"
@@ -33,13 +33,14 @@
         android:id="@+id/tvArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:layout_below="@+id/tvSongTitle"
-        android:text="The Beatles"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/graphiksemibold"
         android:singleLine="true"
-        android:textSize="16sp"
-        android:textColor="@color/white"/>
+        android:text="The Beatles"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/playerView"

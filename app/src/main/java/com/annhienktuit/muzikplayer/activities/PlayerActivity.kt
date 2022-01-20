@@ -59,7 +59,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-
+                Toast.makeText(this@PlayerActivity,"Service Disconnected!",Toast.LENGTH_SHORT).show()
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +113,7 @@ class PlayerActivity : AppCompatActivity() {
             val builder = Palette.Builder(bitmap)
             val palette = builder.generate { palette: Palette? ->
                 if (palette != null) {
-                    palette.dominantSwatch ?.let { rlPlayer.setBackgroundColor(it.rgb) }
+                    palette.mutedSwatch ?.let { rlPlayer.setBackgroundColor(it.rgb) }
                 }
             }
         }
@@ -133,7 +133,7 @@ class PlayerActivity : AppCompatActivity() {
                 }
                 Glide.with(applicationContext)
                     .load(listArtwork[newPosition.mediaItemIndex])
-                    .placeholder(R.drawable.ic_logo)
+                    .placeholder(R.drawable.img_404)
                     .into(imgArtWork)
                 tvArtist.text = listArtist[newPosition.mediaItemIndex]
                 tvSongTitle.text = listTitle[newPosition.mediaItemIndex]
