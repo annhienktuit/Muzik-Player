@@ -67,6 +67,7 @@ class TrackListAdapter(context: Context, trackList: ArrayList<Track>) :
                     intent.putExtra("listTitle", listTitle)
                     intent.putExtra("listArtist", listArtist)
                     intent.putExtra("Index", currentIndex)
+                    intent.putExtra("isLocal",false)
                     itemView.context.startActivity(intent)
 
                 }

@@ -17,7 +17,7 @@
         android:background="@color/spot_bg">
 
         <ImageView
-            android:id="@+id/imgTrendingTrack"
+            android:id="@+id/imgLocalTrackArtwork"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:src="@drawable/sample_daily" />
@@ -25,28 +25,30 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/imgTrendingTrack"
+            android:layout_toEndOf="@+id/imgLocalTrackArtwork"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="2dp">
 
             <TextView
-                android:id="@+id/tvTrendingTrackTitle"
-                android:layout_width="144dp"
+                android:id="@+id/tvLocalTrackTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:fontFamily="@font/graphikmedium"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:text="Local Track 1"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvLocalTrackArtist"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:fontFamily="@font/graphikmedium"
-                android:layout_below="@+id/tvTrendingTrackTitle"
+                android:layout_below="@+id/tvLocalTrackTitle"
                 android:text="Unknown artist"
+                android:maxLines="1"
                 android:textColor="#bdbdbd"
                 android:textSize="12sp"/>
 

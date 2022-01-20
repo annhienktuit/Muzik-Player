@@ -1,10 +1,8 @@
 package com.annhienktuit.muzikplayer.fragments
 
-import android.annotation.SuppressLint
+import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +10,22 @@ import android.view.ViewGroup
 import com.annhienktuit.muzikplayer.R
 import android.provider.MediaStore
 import android.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.annhienktuit.muzikplayer.adapters.LocalListAdapter
+import com.annhienktuit.muzikplayer.adapters.TrackListAdapter
 import com.annhienktuit.muzikplayer.models.LocalTrack
 import java.io.File
 
 class LocalMusicFragment : Fragment() {
 
     private var listLocalSong = ArrayList<File>()
+    val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
+    private lateinit var recyclerViewLocalTrack:RecyclerView
+    private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -28,45 +33,44 @@ class LocalMusicFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_local_music, container, false)
-//        listLocalSong = getListFiles(Environment.getExternalStorageDirectory())
-//        for(file in listLocalSong){
-//            Log.i("Nhiennha ",file.path)
-//        }
-        scanMusic()
+        val context = view.context
+        recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
+        val localTrackList = getAllAudioFromDevice(context)
+        localTrackAdapter = LocalListAdapter(context, localTrackList)
+        recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
+        recyclerViewLocalTrack.adapter = localTrackAdapter
         return view
     }
 
-    @SuppressLint("Range")
-    fun scanMusic(){
-        val uri: Uri = Uri.parse(Environment.getExternalStorageDirectory().toString())
-        val selection = MediaStore.Audio.Media.IS_MUSIC + "!=0"
-        val cursor = requireContext().contentResolver.query(uri, null, selection, null, null)
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                do {
-                    val name: String =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
-                    val artist: String =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
-                    val url: String =
-                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
-                    val s = LocalTrack(name, artist, url)
-                    Log.i("Nhiennha ", s.title)
-                } while (cursor.moveToNext())
+    private fun getAllAudioFromDevice(context: Context): ArrayList<LocalTrack> {
+        val listLocalTrack: ArrayList<LocalTrack> = ArrayList()
+        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(
+            MediaStore.Audio.AudioColumns.DATA,
+            MediaStore.Audio.AudioColumns.ALBUM,
+            MediaStore.Audio.ArtistColumns.ARTIST,
+        )
+        val query: Cursor? = context.contentResolver.query(uri,
+            projection,
+            null,
+            null,
+            null);
+
+        if (query != null) {
+            while (query.moveToNext()) {
+                val path = query.getString(0)
+                val audioModel = LocalTrack(
+                    path.substring(path.lastIndexOf("/") + 1), //title
+                    query.getString(2), //artist
+                    path, //path
+                    query.getString(1),
+                    sampleThumbnailArt)
+                listLocalTrack.add(audioModel)
             }
-            cursor.close()
+            query.close()
         }
+        return listLocalTrack
     }
 
-    private fun getListFiles(parentDir: File): ArrayList<File> {
-        val inFiles = ArrayList<File>()
-        val files = parentDir.listFiles()
-        for (file in files) {
-            if (file.isDirectory) {
-                inFiles.addAll(getListFiles(file))
-            }
-        }
-        return inFiles
-    }
 
 }

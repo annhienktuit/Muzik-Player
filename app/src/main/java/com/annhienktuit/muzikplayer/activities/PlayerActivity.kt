@@ -44,6 +44,7 @@ class PlayerActivity : AppCompatActivity() {
     private var listTitle = ArrayList<String>()
     private var listArtist = ArrayList<String>()
     private var currentIndex = 0
+    private var isLocal = false
     private val connection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if (service is MusicService.PlayerServiceBinder){
@@ -88,7 +89,10 @@ class PlayerActivity : AppCompatActivity() {
     private fun getDataFromBundle() {
         val extras = intent?.extras
         if(extras != null){
-            listID = extras.getStringArrayList("listID") as ArrayList<String>
+            isLocal = extras.getBoolean("isLocal")
+            if(!isLocal){
+                listID = extras.getStringArrayList("listID") as ArrayList<String>
+            }
             listURL = extras.getStringArrayList("listURL") as ArrayList<String>
             listArtwork = extras.getStringArrayList("listArtwork") as ArrayList<String>
             listArtist = extras.getStringArrayList("listArtist") as ArrayList<String>
@@ -113,7 +117,7 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun setPaletteBackground(index: Int) {
-        if(MuzikUtils.isInternetAvailable(this)){
+        if(MuzikUtils.isInternetAvailable(this) && !isLocal){
             val bitmap = ConvertUrlToBitmapAsync().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listArtwork[index]).get()
             val builder = Palette.Builder(bitmap)
             val palette = builder.generate { palette: Palette? ->
@@ -151,7 +155,7 @@ class PlayerActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
             }
             override fun onFinish() {
-                doCaching()
+                if(!isLocal) doCaching()
             }
         }.start()
     }

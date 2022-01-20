@@ -10,56 +10,55 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.activities.PlayerActivity
-import com.annhienktuit.muzikplayer.models.Track
+import com.annhienktuit.muzikplayer.models.LocalTrack
 import com.bumptech.glide.Glide
 
-class TrendingListAdapter(context: Context, trendingTracksList: List<Track>) :
-    RecyclerView.Adapter<TrendingListAdapter.ViewHolder>() {
+class LocalListAdapter(context: Context, localTracksList: List<LocalTrack>) :
+    RecyclerView.Adapter<LocalListAdapter.ViewHolder>() {
     private var mContext: Context = context
-    private var trendingList: List<Track> = trendingTracksList
+    private var localList: List<LocalTrack> = localTracksList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.trending_track_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.local_track_item, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var album = trendingList[position]
-        holder.itemView.tag = trendingList[position]
-        holder.trackTitle.text = album.title
-        Glide.with(mContext).load(trendingList[position].album.artworkURL).placeholder(R.drawable.sample_daily).into(holder.trackArtwork)
+        var track = localList[position]
+        holder.itemView.tag = localList[position]
+        holder.localTrackTitle.text = track.title
+        holder.localTrackArtist.text = track.artist
+        Glide.with(mContext).load(R.drawable.sample_daily).placeholder(R.drawable.sample_daily).into(holder.albumArt)
     }
 
     override fun getItemCount(): Int {
-        return trendingList.size
+        return localList.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var trackTitle: TextView = itemView.findViewById(R.id.tvTrendingTrackTitle)
-        var trackArtwork: ImageView = itemView.findViewById(R.id.imgTrendingTrack)
+        var localTrackTitle: TextView = itemView.findViewById(R.id.tvLocalTrackTitle)
+        var localTrackArtist: TextView = itemView.findViewById(R.id.tvLocalTrackArtist)
+        var albumArt: ImageView = itemView.findViewById(R.id.imgLocalTrackArtwork)
         init {
-            var listID = ArrayList<String>()
-            var listURL = ArrayList<String>()
-            var listArtwork = ArrayList<String>()
-            var listTitle = ArrayList<String>()
-            var listArtist = ArrayList<String>()
-            for (item in trendingList) {
-                listID.add(item.id.toString())
-                listURL.add(item.trackURL)
-                listArtwork.add(item.album.artworkURL)
+            val listPath = ArrayList<String>()
+            val listArtwork = ArrayList<String>()
+            val listTitle = ArrayList<String>()
+            val listArtist = ArrayList<String>()
+            for (item in localList) {
+                listPath.add(item.path)
+                listArtwork.add(item.artworkURL)
                 listTitle.add(item.title)
-                listArtist.add(item.artist.artistName)
+                listArtist.add(item.artist)
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, PlayerActivity::class.java)
                     val currentIndex = bindingAdapterPosition
                     //TODO: Find solution for this
-                    intent.putExtra("listID", listID)
-                    intent.putExtra("listURL", listURL)
+                    intent.putExtra("listURL", listPath)
                     intent.putExtra("listArtwork", listArtwork)
                     intent.putExtra("listTitle", listTitle)
                     intent.putExtra("listArtist", listArtist)
                     intent.putExtra("Index", currentIndex)
-                    intent.putExtra("isLocal",false)
+                    intent.putExtra("isLocal",true)
                     itemView.context.startActivity(intent)
 
                 }
