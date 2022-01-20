@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 
 object MuzikUtils {
@@ -42,5 +43,9 @@ object MuzikUtils {
             }
         }
         return false
+    }
+
+    fun isOnlinePath(path:String):Boolean {
+        return Patterns.WEB_URL.matcher(path).matches()
     }
 }

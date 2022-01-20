@@ -1,5 +1,6 @@
 package com.annhienktuit.muzikplayer.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import com.annhienktuit.muzikplayer.R
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,10 +26,12 @@ class LocalMusicFragment : Fragment() {
     val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
     private lateinit var recyclerViewLocalTrack:RecyclerView
     private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
+    private lateinit var btnShuffle: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,10 +39,15 @@ class LocalMusicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_local_music, container, false)
         val context = view.context
         recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
+        btnShuffle = view.findViewById(R.id.btnShuffle)
         val localTrackList = getAllAudioFromDevice(context)
         localTrackAdapter = LocalListAdapter(context, localTrackList)
         recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
         recyclerViewLocalTrack.adapter = localTrackAdapter
+        btnShuffle.setOnClickListener {
+            localTrackList.shuffle()
+            recyclerViewLocalTrack.adapter?.notifyDataSetChanged()
+        }
         return view
     }
 
@@ -54,7 +63,7 @@ class LocalMusicFragment : Fragment() {
             projection,
             null,
             null,
-            null);
+            null)
 
         if (query != null) {
             while (query.moveToNext()) {
@@ -63,7 +72,7 @@ class LocalMusicFragment : Fragment() {
                     path.substring(path.lastIndexOf("/") + 1), //title
                     query.getString(2), //artist
                     path, //path
-                    query.getString(1),
+                    query.getString(1), //thumbnail
                     sampleThumbnailArt)
                 listLocalTrack.add(audioModel)
             }

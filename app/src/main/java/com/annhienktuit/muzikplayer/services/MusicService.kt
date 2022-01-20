@@ -18,9 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.asynctasks.ConvertUrlToBitmapAsync
-import com.annhienktuit.muzikplayer.asynctasks.PreLoadingMusicCache
-import com.annhienktuit.muzikplayer.models.PreCacheParams
 import com.annhienktuit.muzikplayer.utils.CacheUtils.Companion.simpleMusicCache
+import com.annhienktuit.muzikplayer.utils.MuzikUtils
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
@@ -30,6 +29,8 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
+import com.google.android.exoplayer2.upstream.DefaultDataSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 
@@ -54,13 +55,13 @@ class MusicService : Service() {
         getDataFromBundle(intent)
         initializePlayer()
         initializeNotification()
-        Log.i("Nhiennha","onBind")
+        Log.i("Nhiennha", "onBind")
         return PlayerServiceBinder()
     }
 
     override fun onCreate() {
         super.onCreate()
-        Log.i("Nhiennha","onCreate")
+        Log.i("Nhiennha", "onCreate")
         val loadControl: LoadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(8 * 1024, 32 * 1024, 1024, 1024)
             .build()
@@ -72,7 +73,7 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i("Nhiennha","onStartCommand")
+        Log.i("Nhiennha", "onStartCommand")
         return START_STICKY
 
     }
@@ -109,11 +110,21 @@ class MusicService : Service() {
             val mediaItem = MediaItem.Builder()
                 .setUri(Uri.parse(listURL[idx]))
                 .build()
-            listMediaSources.add(
-                ProgressiveMediaSource
-                    .Factory(cacheDataSourceFactory)
-                    .createMediaSource(mediaItem)
-            )
+            if(MuzikUtils.isOnlinePath(mediaItem.localConfiguration!!.uri.toString())){
+                listMediaSources.add(
+                    ProgressiveMediaSource
+                        .Factory(cacheDataSourceFactory)
+                        .createMediaSource(mediaItem)
+                )
+            }
+            else {
+                listMediaSources.add(
+                    ProgressiveMediaSource
+                        .Factory(DefaultDataSource.Factory(this))
+                        .createMediaSource(mediaItem)
+                )
+            }
+
         }
 
         val concatenatingMediaSource = ConcatenatingMediaSource()
@@ -155,7 +166,6 @@ class MusicService : Service() {
                 Log.i("PlayerService ", "Start foreground service")
                 startForeground(notificationId, notification)
             }
-
         }
 
         val playerNotificationManager = PlayerNotificationManager.Builder(
