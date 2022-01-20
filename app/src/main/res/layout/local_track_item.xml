@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:backgroundTint="#292929"
     android:background="@color/spot_bg"
-    android:layout_marginVertical="5dp"
-    android:layout_marginHorizontal="5dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
     android:useDefaultMargins="true"
     app:cardCornerRadius="5dp">
 

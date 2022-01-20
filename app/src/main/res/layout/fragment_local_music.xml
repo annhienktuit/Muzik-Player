@@ -6,20 +6,10 @@
     android:background="@color/black"
     tools:context=".fragments.LocalMusicFragment">
 
-    <Button
-        android:id="@+id/btnShuffle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:paddingHorizontal="40dp"
-        android:background="@drawable/rounded_corner"
-        android:text="Shuffle Play"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewLocalTracks"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/btnShuffle"/>
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp" />
 </RelativeLayout>

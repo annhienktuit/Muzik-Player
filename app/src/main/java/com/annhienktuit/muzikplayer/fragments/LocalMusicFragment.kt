@@ -2,6 +2,7 @@ package com.annhienktuit.muzikplayer.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import android.widget.Button
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.annhienktuit.muzikplayer.activities.PlayerActivity
 import com.annhienktuit.muzikplayer.adapters.LocalListAdapter
 import com.annhienktuit.muzikplayer.adapters.TrackListAdapter
 import com.annhienktuit.muzikplayer.models.LocalTrack
@@ -23,10 +25,10 @@ import java.io.File
 class LocalMusicFragment : Fragment() {
 
     private var listLocalSong = ArrayList<File>()
-    val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
+    private val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
     private lateinit var recyclerViewLocalTrack:RecyclerView
     private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
-    private lateinit var btnShuffle: Button
+    private lateinit var localTrackList: ArrayList<LocalTrack>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -39,15 +41,10 @@ class LocalMusicFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_local_music, container, false)
         val context = view.context
         recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
-        btnShuffle = view.findViewById(R.id.btnShuffle)
-        val localTrackList = getAllAudioFromDevice(context)
+        localTrackList = getAllAudioFromDevice(context)
         localTrackAdapter = LocalListAdapter(context, localTrackList)
         recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
         recyclerViewLocalTrack.adapter = localTrackAdapter
-        btnShuffle.setOnClickListener {
-            localTrackList.shuffle()
-            recyclerViewLocalTrack.adapter?.notifyDataSetChanged()
-        }
         return view
     }
 
