@@ -15,14 +15,17 @@ import android.os.SystemClock
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.annhienktuit.muzikplayer.R
+import com.annhienktuit.muzikplayer.activities.HomeActivity
+import com.annhienktuit.muzikplayer.activities.PlayerActivity
 import com.annhienktuit.muzikplayer.utils.CacheUtils.Companion.simpleMusicCache
 import com.annhienktuit.muzikplayer.utils.MuzikUtils
+import com.annhienktuit.muzikplayer.utils.MuzikUtils.isServiceRunning
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -82,7 +85,7 @@ class MusicService : Service() {
 
     private fun getDataFromBundle(intent: Intent?) {
         val extras = intent?.extras
-        if (extras != null) {
+        if (extras != null && !isServiceRunning("MusicService")) {
             listID = extras.getStringArrayList("listID") as ArrayList<String>
             listURL = extras.getStringArrayList("listURL") as ArrayList<String>
             listArtwork = extras.getStringArrayList("listArtwork") as ArrayList<String>
@@ -90,6 +93,19 @@ class MusicService : Service() {
             listTitle = extras.getStringArrayList("listTitle") as ArrayList<String>
             currentIndex = extras.getInt("Index")
         }
+    }
+
+    private fun isServiceRunning(serviceClassName: String?): Boolean {
+        val activityManager =
+            this.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
+        val services: List<ActivityManager.RunningServiceInfo> = activityManager.getRunningServices(
+            Int.MAX_VALUE)
+        for (runningServiceInfo in services) {
+            if (runningServiceInfo.service.className == serviceClassName) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun initializePlayer() {
@@ -210,19 +226,7 @@ class MusicService : Service() {
         fun getCurrentIndex() = exoPlayer.currentMediaItemIndex
     }
 
-    @SuppressLint("UnspecifiedImmutableFlag")
     override fun onTaskRemoved(rootIntent: Intent?) {
-        val restartServiceIntent = Intent(applicationContext, this.javaClass)
-        restartServiceIntent.setPackage(packageName)
-        val restartServicePendingIntent = PendingIntent.getService(
-            applicationContext,
-            1,
-            restartServiceIntent,
-            PendingIntent.FLAG_ONE_SHOT
-        )
-        val alarmService = applicationContext.getSystemService(ALARM_SERVICE) as AlarmManager
-        alarmService[AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 1000] =
-            restartServicePendingIntent
         super.onTaskRemoved(rootIntent)
     }
 
@@ -244,8 +248,10 @@ class DescriptionAdapter(
         return window.toString()
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     override fun createCurrentContentIntent(player: Player): PendingIntent? {
-        return controller.sessionActivity
+        val intent = Intent(mContext, HomeActivity::class.java)
+        return PendingIntent.getActivity(mContext, 0, intent, 0)
     }
 
     override fun getCurrentContentText(player: Player): String? {
