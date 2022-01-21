@@ -72,6 +72,7 @@ class OnlineMusicFragment : Fragment() {
                 if (response.body() != null) {
                     onlineTracks = response.body()!!
                     for (track in onlineTracks.tracks) {
+                        if(track.trackURL == "") continue
                         trackList.add(track)
                     }
                     recyclerviewTopTrack.adapter?.notifyDataSetChanged()
