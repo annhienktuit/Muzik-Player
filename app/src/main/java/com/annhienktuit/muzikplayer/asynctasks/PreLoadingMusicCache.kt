@@ -38,7 +38,6 @@ class PreLoadingMusicCache: AsyncTask<PreCacheParams, Void, Void>() {
                 null
             )
             cacheVideo(dataSpec,cacheDataSource);
-            Log.i(TAG, "Caching for $id")
         } catch (e: Throwable) {
             e.printStackTrace()
         }

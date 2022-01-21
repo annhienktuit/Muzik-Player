@@ -24,10 +24,8 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
     val mediaList = mediaList
     override fun createFragment(position: Int): Fragment {
         if (position + 1 < mediaList.size && isInternetAvailable(mContext)) {
-            Log.i("Nhiennha ","Cache next")
             doPreCacheVideo(position + 1)
             if (position - 1 >= 0 && isInternetAvailable(mContext)) {
-                Log.i("Nhiennha ","Cache prev")
                 doPreCacheVideo(position - 1)
             }
         }
@@ -40,7 +38,6 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
 
     private fun doPreCacheVideo(position: Int) {
         Thread {
-            Log.i("Nhiennha ","Thread " + Thread.currentThread().id.toString())
             val dataSpec: DataSpec = DataSpec.Builder()
                 .setUri(mediaList[position].localConfiguration!!.uri)
                 .setLength(2048000)

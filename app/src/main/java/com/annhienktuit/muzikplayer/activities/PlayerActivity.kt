@@ -1,12 +1,12 @@
 package com.annhienktuit.muzikplayer.activities
 
-import android.R.attr
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -29,18 +29,11 @@ import com.annhienktuit.muzikplayer.utils.MuzikUtils.haveInternetConnection
 import com.annhienktuit.muzikplayer.utils.MuzikUtils.isServiceRunning
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerControlView
-import com.google.common.collect.BiMap
 import kotlin.concurrent.thread
-import android.R.attr.path
-import android.graphics.drawable.Drawable
-import androidx.palette.graphics.Palette.PaletteAsyncListener
-import androidx.palette.graphics.Palette.Swatch
-import com.bumptech.glide.request.target.BitmapImageViewTarget
-import com.bumptech.glide.request.transition.Transition
 
 
 class PlayerActivity : AppCompatActivity() {
@@ -61,7 +54,6 @@ class PlayerActivity : AppCompatActivity() {
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             if (service is MusicService.PlayerServiceBinder) {
-                Log.i("Nhiennha ", "Service Connected")
                 exoPlayer = service.getExoPlayerInstance()
                 currentIndexFromService = service.getCurrentIndex()
                 setNewTrackIndex(currentIndex)
@@ -137,7 +129,7 @@ class PlayerActivity : AppCompatActivity() {
                     .asBitmap()
                     .load(listArtwork[index])
                     .placeholder(R.drawable.img_404)
-                    .into(object : CustomTarget<Bitmap>(100,100) {
+                    .into(object : CustomTarget<Bitmap>(100, 100) {
                         override fun onResourceReady(
                             resource: Bitmap,
                             transition: Transition<in Bitmap>?
@@ -217,7 +209,6 @@ class PlayerActivity : AppCompatActivity() {
                 Log.e("Nhienha", e.printStackTrace().toString())
             }
         }
-
     }
 
     private fun attachView() {

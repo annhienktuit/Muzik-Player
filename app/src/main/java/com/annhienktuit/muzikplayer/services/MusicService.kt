@@ -60,13 +60,11 @@ class MusicService : Service() {
         getDataFromBundle(intent)
         initializePlayer()
         initializeNotification()
-        Log.i("Nhiennha", "onBind")
         return PlayerServiceBinder()
     }
 
     override fun onCreate() {
         super.onCreate()
-        Log.i("Nhiennha", "onCreate")
         val loadControl: LoadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(8 * 1024, 32 * 1024, 1024, 1024)
             .build()
@@ -78,7 +76,6 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.i("Nhiennha", "onStartCommand")
         getDataFromBundle(intent)
         return START_STICKY
     }
@@ -128,7 +125,6 @@ class MusicService : Service() {
                         .createMediaSource(mediaItem)
                 )
             }
-
         }
 
         val concatenatingMediaSource = ConcatenatingMediaSource()
@@ -167,7 +163,6 @@ class MusicService : Service() {
                 ongoing: Boolean
             ) {
                 super.onNotificationPosted(notificationId, notification, ongoing)
-                Log.i("PlayerService ", "Start foreground service")
                 startForeground(notificationId, notification)
             }
         }
@@ -194,7 +189,6 @@ class MusicService : Service() {
             setMediaSessionToken(mediaSession.sessionToken)
             setPlayer(exoPlayer)
         }
-
     }
 
     private fun createNotificationChannel() {

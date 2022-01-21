@@ -1,14 +1,11 @@
 package com.annhienktuit.muzikplayer.fragments
 
 import android.content.Context
-import android.media.browse.MediaBrowser
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.utils.CacheUtils
 import com.google.android.exoplayer2.DefaultLoadControl
@@ -84,8 +81,6 @@ class SingleVideoFragment(mediaItem: MediaItem) : Fragment() {
     }
 
     private fun startPlayer() {
-        Log.i(TAG, "StartPlayer")
-        Log.i("Nhiennha ",exoPlayer.toString())
         exoPlayer!!.prepare()
         exoPlayer!!.playWhenReady = true
     }
@@ -93,7 +88,8 @@ class SingleVideoFragment(mediaItem: MediaItem) : Fragment() {
     private fun prepareDataSource(context: Context) {
         httpDataSourceFactory = DefaultHttpDataSource.Factory()
             .setAllowCrossProtocolRedirects(true)
-        defaultDataSourceFactory = DefaultDataSource.Factory(context,
+        defaultDataSourceFactory = DefaultDataSource.Factory(
+            context,
             httpDataSourceFactory as DefaultHttpDataSource.Factory
         )
         cacheDataSourceFactory = CacheDataSource.Factory()
@@ -104,17 +100,9 @@ class SingleVideoFragment(mediaItem: MediaItem) : Fragment() {
     }
 
     private fun pausePlayer() {
-        Log.i(TAG, "PausePlayer")
         exoPlayer!!.seekTo(1)
         exoPlayer!!.pause()
         exoPlayer!!.playWhenReady = false
-    }
-
-    private fun releasePlayer(){
-        Log.i(TAG,"ReleasePlayer")
-        exoPlayer!!.seekTo(0)
-        exoPlayer!!.release()
-        exoPlayer = null
     }
 
 }

@@ -2,7 +2,6 @@ package com.annhienktuit.muzikplayer.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -103,7 +102,7 @@ class OnlineMusicFragment : Fragment() {
                     recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
                     //re-update
                     chartTracks = response.body()!!
-                    for(track in chartTracks.tracks.tracks){
+                    for (track in chartTracks.tracks.tracks) {
                         chartTrackList.add(track)
                     }
                     recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
