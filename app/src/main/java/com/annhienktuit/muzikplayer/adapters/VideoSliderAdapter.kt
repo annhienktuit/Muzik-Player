@@ -15,8 +15,6 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSink
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheWriter
 import java.util.ArrayList
-import java.util.logging.Handler
-import kotlin.concurrent.thread
 
 class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, lifecycle: Lifecycle, mediaList: ArrayList<MediaItem>): FragmentStateAdapter(fragmentManager, lifecycle) {
     val mContext = context

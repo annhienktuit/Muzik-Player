@@ -103,6 +103,7 @@ class OnlineMusicFragment : Fragment() {
                     //re-update
                     chartTracks = response.body()!!
                     for (track in chartTracks.tracks.tracks) {
+                        if(track.trackURL == "") continue
                         chartTrackList.add(track)
                     }
                     recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()

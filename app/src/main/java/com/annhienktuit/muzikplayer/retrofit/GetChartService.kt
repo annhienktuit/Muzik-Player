@@ -7,6 +7,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface GetChartService {
-    @GET("/chart/0?limit=6")
+    @GET("/chart/0?limit=9")
     fun getChartTracks(): Call<TrendingTracks>
 }
