@@ -23,19 +23,17 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
     val TAG = "VideoPlayerFragment"
     val mediaList = mediaList
     override fun createFragment(position: Int): Fragment {
-        if (position == 0 && isInternetAvailable(mContext)) {
-            doPreCacheVideo(position)
-        }
-
-        if (position + 1 < mediaList.size && position + 1 >= 0 && isInternetAvailable(mContext)) {
+        if (position + 1 < mediaList.size && isInternetAvailable(mContext)) {
+            Log.i("Nhiennha ","Cache next")
             doPreCacheVideo(position + 1)
+            if (position - 1 >= 0 && isInternetAvailable(mContext)) {
+                Log.i("Nhiennha ","Cache prev")
+                doPreCacheVideo(position - 1)
+            }
         }
 
-        if (position - 1 >= 0 && isInternetAvailable(mContext)) {
-            doPreCacheVideo(position - 1)
-        }
-        else{
-            Log.e(TAG,"Cannot perform pre-cache")
+        else {
+            Log.e(TAG,"Cannot perform pre-cache on position $position")
         }
         return SingleVideoFragment(mediaList[position])
     }
