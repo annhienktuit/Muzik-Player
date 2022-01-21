@@ -8,7 +8,10 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.IBinder
+import android.os.SystemClock
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -112,14 +115,13 @@ class MusicService : Service() {
             val mediaItem = MediaItem.Builder()
                 .setUri(Uri.parse(listURL[idx]))
                 .build()
-            if(MuzikUtils.isOnlinePath(mediaItem.localConfiguration!!.uri.toString())){
+            if (MuzikUtils.isOnlinePath(mediaItem.localConfiguration!!.uri.toString())) {
                 listMediaSources.add(
                     ProgressiveMediaSource
                         .Factory(cacheDataSourceFactory)
                         .createMediaSource(mediaItem)
                 )
-            }
-            else {
+            } else {
                 listMediaSources.add(
                     ProgressiveMediaSource
                         .Factory(DefaultDataSource.Factory(this))

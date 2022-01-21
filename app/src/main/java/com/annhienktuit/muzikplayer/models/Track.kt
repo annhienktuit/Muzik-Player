@@ -29,4 +29,4 @@ data class Album(
     var artworkURL: String
 )
 
-//Sample API scheme: https://api.deezer.com/playlist/2159765062/tracks
+//Sample API: https://api.deezer.com/playlist/2159765062/tracks

@@ -2,7 +2,7 @@ package com.annhienktuit.muzikplayer.models
 
 import com.google.gson.annotations.SerializedName
 
-class VerticalVideo {
+class Video {
     @SerializedName("id")
     var id: String = ""
     @SerializedName("url")
