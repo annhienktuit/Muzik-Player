@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.*
 import android.support.v4.media.MediaDescriptionCompat
@@ -17,9 +18,11 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.annhienktuit.muzikplayer.R
-import com.annhienktuit.muzikplayer.asynctasks.ConvertUrlToBitmapAsync
 import com.annhienktuit.muzikplayer.utils.CacheUtils.Companion.simpleMusicCache
 import com.annhienktuit.muzikplayer.utils.MuzikUtils
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
@@ -30,7 +33,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.upstream.DefaultDataSource
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 
@@ -74,8 +76,8 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.i("Nhiennha", "onStartCommand")
+        getDataFromBundle(intent)
         return START_STICKY
-
     }
 
     private fun getDataFromBundle(intent: Intent?) {
@@ -258,16 +260,25 @@ class DescriptionAdapter(
         player: Player,
         callback: PlayerNotificationManager.BitmapCallback
     ): Bitmap? {
-        val getImageFromURLTask =
-            ConvertUrlToBitmapAsync().executeOnExecutor(
-                AsyncTask.THREAD_POOL_EXECUTOR,
-                listArtwork[player.currentMediaItemIndex]
-            )
-        return if (getImageFromURLTask.get() != null) {
-            getImageFromURLTask.get()
-        } else {
-            getBitmapFromVectorDrawable(mContext, R.drawable.ic_logo)
-        }
+        loadBitmap(listArtwork[player.currentMediaItemIndex], callback)
+        return getBitmapFromVectorDrawable(mContext, R.drawable.ic_logo)
+    }
+
+    private fun loadBitmap(url: String, callback: PlayerNotificationManager.BitmapCallback?) {
+        Glide.with(context.applicationContext)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(
+                    resource: Bitmap,
+                    transition: Transition<in Bitmap>?
+                ) {
+                    callback?.onBitmap(resource)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
     }
 
     private fun getBitmapFromVectorDrawable(

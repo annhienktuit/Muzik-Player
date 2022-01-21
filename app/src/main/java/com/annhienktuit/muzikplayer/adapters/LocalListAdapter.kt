@@ -60,7 +60,6 @@ class LocalListAdapter(context: Context, localTracksList: List<LocalTrack>) :
                     intent.putExtra("Index", currentIndex)
                     intent.putExtra("isLocal",true)
                     itemView.context.startActivity(intent)
-
                 }
             }
         }
