@@ -21,9 +21,6 @@ import com.annhienktuit.muzikplayer.retrofit.RetrofitClient
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class OnlineMusicFragment : Fragment() {
@@ -70,12 +67,12 @@ class OnlineMusicFragment : Fragment() {
         val disposable = client.getOnlineTrackService().getAlbumTrack("2159765062")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe(this::handleResponse, this::handleError, this::handleSuccess)
+            .subscribe(this::handleTracksResponse, this::handleError, this::handleSuccess)
         compositeDisposable.add(disposable)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun handleResponse(onlineTracks: OnlineTracks) {
+    private fun handleTracksResponse(onlineTracks: OnlineTracks) {
         for (track in onlineTracks.tracks) {
             if (track.trackURL == "") continue
             Log.i("Tracks ", track.title)
@@ -95,34 +92,24 @@ class OnlineMusicFragment : Fragment() {
 
     private fun initChartData() {
         val client = RetrofitClient(requireContext(), "https://api.deezer.com")
-        val call = client.getChartService().getChartTracks()
-        call.enqueue(object : Callback<TrendingTracks> {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(
-                call: Call<TrendingTracks>,
-                response: Response<TrendingTracks>
-            ) {
-                if (response.body() != null) {
-                    //refresh handle
-                    chartTrackList.clear()
-                    recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
-                    //re-update
-                    chartTracks = response.body()!!
-                    for (track in chartTracks.tracks.tracks) {
-                        if (track.trackURL == "") continue
-                        chartTrackList.add(track)
-                    }
-                    recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
-                } else {
-                    Log.i("Nhiennha ", "Null")
-                }
-            }
-
-            override fun onFailure(call: Call<TrendingTracks>, t: Throwable) {
-                Log.e("Nhiennha ", t.fillInStackTrace().toString())
-            }
-        })
+        val disposable = client.getChartService().getChartTracks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(this::handleChartResponse, this::handleError, this::handleSuccess)
         swipeContainer.isRefreshing = false
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun handleChartResponse(chartTracks: TrendingTracks) {
+        //refresh handle
+        chartTrackList.clear()
+        recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
+        //re-update
+        for (track in chartTracks.tracks.tracks) {
+            if (track.trackURL == "") continue
+            chartTrackList.add(track)
+        }
+        recyclerViewTrendingTracks.adapter?.notifyDataSetChanged()
     }
 
     private fun attachView(view: View) {
