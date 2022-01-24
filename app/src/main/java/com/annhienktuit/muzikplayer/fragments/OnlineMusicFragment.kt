@@ -26,8 +26,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class OnlineMusicFragment : Fragment() {
     private lateinit var recyclerviewTopTrack: RecyclerView
     private lateinit var topTrackAdapter: RecyclerView.Adapter<TrackListAdapter.ViewHolder>
-    private lateinit var onlineTracks: OnlineTracks
-    private lateinit var chartTracks: TrendingTracks
     private lateinit var compositeDisposable: CompositeDisposable
     private var trackList = ArrayList<Track>()
     private var chartTrackList = ArrayList<Track>()
@@ -96,6 +94,7 @@ class OnlineMusicFragment : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(this::handleChartResponse, this::handleError, this::handleSuccess)
+        compositeDisposable.add(disposable)
         swipeContainer.isRefreshing = false
     }
 
