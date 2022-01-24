@@ -7,16 +7,17 @@ import okhttp3.OkHttpClient
 import retrofit2.converter.gson.GsonConverterFactory
 
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import java.io.File
 
 
 class RetrofitClient(context: Context, baseURL: String) {
-    val BASE_URL = baseURL
+    private val BASE_URL = baseURL
     private var retrofit: Retrofit? = null
-    val cacheSize = 5 * 1024 * 1024
-    val retroCacheDir = File(context.cacheDir, "retrofit")
-    val retroCache = Cache(retroCacheDir, cacheSize.toLong())
-    val okHttpClient = OkHttpClient.Builder()
+    private val cacheSize = 5 * 1024 * 1024
+    private val retroCacheDir = File(context.cacheDir, "retrofit")
+    private val retroCache = Cache(retroCacheDir, cacheSize.toLong())
+    private val okHttpClient = OkHttpClient.Builder()
         .cache(retroCache)
         .addInterceptor { chain ->
             var request = chain.request()
@@ -43,6 +44,7 @@ class RetrofitClient(context: Context, baseURL: String) {
             retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build()
         }
