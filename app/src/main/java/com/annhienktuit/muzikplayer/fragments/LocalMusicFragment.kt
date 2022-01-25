@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,6 @@ import java.io.File
 
 class LocalMusicFragment : Fragment() {
 
-    private var listLocalSong = ArrayList<File>()
     private val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
     private lateinit var recyclerViewLocalTrack: RecyclerView
     private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
@@ -30,7 +30,6 @@ class LocalMusicFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,20 +38,19 @@ class LocalMusicFragment : Fragment() {
         val context = view.context
         recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
         localSwipeContainer = view.findViewById(R.id.localSwipeContainer)
-        localTrackList = getAllAudioFromDevice(context)
+        localTrackList = ArrayList<LocalTrack>()
+        getAllAudioFromDevice(context)
         localTrackAdapter = LocalListAdapter(context, localTrackList)
         recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
         recyclerViewLocalTrack.adapter = localTrackAdapter
         localSwipeContainer.setOnRefreshListener {
-            localTrackList = getAllAudioFromDevice(context)
-            recyclerViewLocalTrack.adapter?.notifyDataSetChanged()
-            localSwipeContainer.isRefreshing = false
+            getAllAudioFromDevice(context)
         }
         return view
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun getAllAudioFromDevice(context: Context): ArrayList<LocalTrack> {
-        val listLocalTrack: ArrayList<LocalTrack> = ArrayList()
         val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
             MediaStore.Audio.AudioColumns.DATA,
@@ -69,6 +67,7 @@ class LocalMusicFragment : Fragment() {
         )
 
         if (query != null) {
+            localTrackList.clear()
             while (query.moveToNext()) {
                 val path = query.getString(0)
                 val localTrack = LocalTrack(
@@ -78,13 +77,19 @@ class LocalMusicFragment : Fragment() {
                     query.getString(1), //album
                     sampleThumbnailArt
                 )//thumbnail
-                if(localTrack.title.substring(localTrack.title.length - 3, localTrack.title.length) != "ogg"){
-                listLocalTrack.add(localTrack)
+                if (localTrack.title.substring(
+                        localTrack.title.length - 3,
+                        localTrack.title.length
+                    ) != "ogg"
+                ) {
+                    localTrackList.add(localTrack)
                 }
             }
             query.close()
         }
-        return listLocalTrack
+        recyclerViewLocalTrack.adapter?.notifyDataSetChanged()
+        localSwipeContainer.isRefreshing = false
+        return localTrackList
     }
 
 }
