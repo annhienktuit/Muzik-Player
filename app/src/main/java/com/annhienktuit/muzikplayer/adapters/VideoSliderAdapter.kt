@@ -14,9 +14,14 @@ import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.upstream.cache.CacheDataSink
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheWriter
-import java.util.ArrayList
+import java.util.*
 
-class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, lifecycle: Lifecycle, mediaList: ArrayList<MediaItem>): FragmentStateAdapter(fragmentManager, lifecycle) {
+class VideoSliderAdapter(
+    context: Context,
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    mediaList: ArrayList<MediaItem>,
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
     val mContext = context
     val TAG = "VideoPlayerFragment"
     val mediaList = mediaList
@@ -26,12 +31,18 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
             if (position - 1 >= 0 && isInternetAvailable(mContext)) {
                 doPreCacheVideo(position - 1)
             }
-        }
-
-        else {
-            Log.e(TAG,"Cannot perform pre-cache on position $position")
+        } else {
+            Log.e(TAG, "Cannot perform pre-cache on position $position")
         }
         return SingleVideoFragment(mediaList[position])
+    }
+
+    private fun handleSuccess() {
+        Log.i("Nhiennha ", "Pre-Cache Video success")
+    }
+
+    private fun handleError(throwable: Throwable) {
+        Log.e("Nhiennha ", throwable.message!!)
     }
 
     private fun doPreCacheVideo(position: Int) {
@@ -44,7 +55,8 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
             val upstreamDataSource: HttpDataSource =
                 DefaultHttpDataSource.Factory().setAllowCrossProtocolRedirects(true)
                     .createDataSource()
-            val dataSink: DataSink = CacheDataSink(simpleCache, 5 * 1024 * 1024) // 1 video precache 1 fragment
+            val dataSink: DataSink =
+                CacheDataSink(simpleCache, 5 * 1024 * 1024) // 1 video precache 1 fragment
             val cacheDataSource = CacheDataSource(
                 simpleCache,
                 upstreamDataSource,
@@ -56,7 +68,6 @@ class VideoSliderAdapter(context: Context,fragmentManager: FragmentManager, life
             )
             cacheVideo(dataSpec, cacheDataSource)
         }.start()
-
     }
 
     private fun cacheVideo(dataSpec: DataSpec, cacheDataSource: CacheDataSource) {

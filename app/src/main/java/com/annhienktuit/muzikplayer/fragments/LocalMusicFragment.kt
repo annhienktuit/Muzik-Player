@@ -78,7 +78,9 @@ class LocalMusicFragment : Fragment() {
                     query.getString(1), //album
                     sampleThumbnailArt
                 )//thumbnail
+                if(localTrack.title.substring(localTrack.title.length - 3, localTrack.title.length) != "ogg"){
                 listLocalTrack.add(localTrack)
+                }
             }
             query.close()
         }

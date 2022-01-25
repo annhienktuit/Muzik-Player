@@ -37,7 +37,7 @@ class PreLoadingMusicCache: AsyncTask<PreCacheParams, Void, Void>() {
                 null,
                 null
             )
-            cacheVideo(dataSpec,cacheDataSource);
+            cacheVideo(dataSpec,cacheDataSource)
         } catch (e: Throwable) {
             e.printStackTrace()
         }

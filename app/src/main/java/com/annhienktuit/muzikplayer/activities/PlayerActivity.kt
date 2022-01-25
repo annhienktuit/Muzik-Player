@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -24,6 +25,7 @@ import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.asynctasks.PreLoadingMusicCache
 import com.annhienktuit.muzikplayer.models.PreCacheParams
 import com.annhienktuit.muzikplayer.services.MusicService
+import com.annhienktuit.muzikplayer.utils.CacheUtils
 import com.annhienktuit.muzikplayer.utils.MuzikUtils
 import com.annhienktuit.muzikplayer.utils.MuzikUtils.haveInternetConnection
 import com.annhienktuit.muzikplayer.utils.MuzikUtils.isServiceRunning
@@ -33,6 +35,17 @@ import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerControlView
+import com.google.android.exoplayer2.upstream.*
+import com.google.android.exoplayer2.upstream.cache.CacheDataSink
+import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.exoplayer2.upstream.cache.CacheWriter
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlin.concurrent.thread
 
 
@@ -206,10 +219,19 @@ class PlayerActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                Log.e("Nhienha", e.printStackTrace().toString())
+                Log.e("Nhiennha", e.printStackTrace().toString())
             }
         }
     }
+
+    private fun handleSuccess() {
+        Log.i("Nhiennha ", "Get data success")
+    }
+
+    private fun handleError(throwable: Throwable) {
+        Log.e("Nhiennha ", throwable.message!!)
+    }
+
 
     private fun attachView() {
         playerView = findViewById(R.id.playerView)
