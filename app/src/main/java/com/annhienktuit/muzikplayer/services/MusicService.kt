@@ -162,10 +162,9 @@ class MusicService : Service() {
             ): MediaDescriptionCompat {
                 player.let { safePlayer ->
                     return MediaDescriptionCompat.Builder().apply {
-                        setTitle(listTitle[exoPlayer.currentMediaItemIndex])
+                        setTitle(listTitle[safePlayer.currentMediaItemIndex])
                     }.build()
                 }
-                return MediaDescriptionCompat.Builder().build()
             }
         }
 
