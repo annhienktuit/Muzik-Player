@@ -150,7 +150,10 @@ class PlayerActivity : AppCompatActivity() {
                             val builder = Palette.Builder(resource)
                             val palette = builder.generate { palette: Palette? ->
                                 if (palette != null) {
-                                    palette.mutedSwatch?.let { rlPlayer.setBackgroundColor(it.rgb) }
+                                    palette.mutedSwatch?.let {
+                                        rlPlayer.setBackgroundColor(it.rgb)
+                                        this@PlayerActivity.window.statusBarColor = it.rgb
+                                    }
                                 }
                             }
                         }
