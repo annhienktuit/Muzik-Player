@@ -14,7 +14,7 @@
         android:layout_width="186dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="@color/spot_bg">
+        android:background="#1f1f1f">
 
         <ImageView
             android:id="@+id/imgTrendingTrack"

@@ -11,7 +11,6 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.os.SystemClock
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -22,10 +21,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.activities.HomeActivity
-import com.annhienktuit.muzikplayer.activities.PlayerActivity
 import com.annhienktuit.muzikplayer.utils.CacheUtils.Companion.simpleMusicCache
 import com.annhienktuit.muzikplayer.utils.MuzikUtils
-import com.annhienktuit.muzikplayer.utils.MuzikUtils.isServiceRunning
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -99,7 +96,8 @@ class MusicService : Service() {
         val activityManager =
             this.getSystemService(AppCompatActivity.ACTIVITY_SERVICE) as ActivityManager
         val services: List<ActivityManager.RunningServiceInfo> = activityManager.getRunningServices(
-            Int.MAX_VALUE)
+            Int.MAX_VALUE
+        )
         for (runningServiceInfo in services) {
             if (runningServiceInfo.service.className == serviceClassName) {
                 return true

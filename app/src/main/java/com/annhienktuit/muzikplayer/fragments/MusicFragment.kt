@@ -16,7 +16,7 @@ class MusicFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
-    val listTitle = arrayOf("Online Music", "Local Music")
+    private val listTitle = arrayOf("Online", "Local")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

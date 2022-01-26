@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/spot_bg"
+    android:background="@drawable/black_gradient"
     android:orientation="vertical"
     tools:context=".fragments.MusicFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:background="@color/spot_bg"
+        android:background="#00000000"
+        app:tabTextAppearance="@style/TabLayoutAppearance"
         app:tabIconTint="@color/spot_bg"
         app:tabIndicatorColor="@color/spot_green"
         app:tabSelectedTextColor="@color/spot_green"
-        app:tabTextColor="@color/white" />
+        app:tabTextColor="@color/white"
+        app:tabIndicatorFullWidth="false" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 
 </LinearLayout>
 
