@@ -13,5 +13,4 @@
     app:show_buffering="when_playing"
     app:show_shuffle_button="false"
     app:show_timeout="2000"
-    app:resize_mode="fill"
-    />
+    app:resize_mode="fill" />

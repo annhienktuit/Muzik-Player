@@ -1,10 +1,12 @@
 package com.annhienktuit.muzikplayer.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.annhienktuit.muzikplayer.R
 import com.annhienktuit.muzikplayer.adapters.ViewPagerAdapter
@@ -30,6 +32,7 @@ class MusicFragment : Fragment() {
         val context = container!!.context
         val adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
         viewPager.adapter = adapter
+        viewPager.isUserInputEnabled = false
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = listTitle[position]
         }.attach()
