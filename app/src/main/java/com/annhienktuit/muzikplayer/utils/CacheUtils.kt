@@ -19,7 +19,7 @@ class CacheUtils: Application() {
     override fun onCreate() {
         super.onCreate()
         leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(exoPlayerCacheSize)
-        exoDatabaseProvider = ExoDatabaseProvider(this)
+        exoDatabaseProvider = StandaloneDatabaseProvider(this)
         val videoCacheDirectory = File(cacheDir.toString(), "video")
         val musicCacheDirectory = File(cacheDir.toString(),"music")
         simpleCache = SimpleCache(videoCacheDirectory , leastRecentlyUsedCacheEvictor, exoDatabaseProvider)

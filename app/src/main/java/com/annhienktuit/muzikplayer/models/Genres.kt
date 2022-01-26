@@ -1,10 +1,8 @@
 package com.annhienktuit.muzikplayer.models
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
-data class OnlineTracks(
+data class Genres(
     @SerializedName("data")
-    val tracks: ArrayList<Track>
+    val genres: List<Genre>
 )
-

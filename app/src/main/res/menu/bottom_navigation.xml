@@ -5,8 +5,13 @@
         android:icon="@drawable/ic_music"
         android:title="Music" />
 
+    <item android:id="@+id/nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="Search" />
+
     <item android:id="@+id/nav_video"
         android:icon="@drawable/ic_video"
         android:title="Video" />
+
 
 </menu>

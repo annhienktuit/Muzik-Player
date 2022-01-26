@@ -62,4 +62,16 @@ class RetrofitClient(context: Context, baseURL: String) {
         }
         return retrofit!!.create(GetChartService::class.java)
     }
+
+    fun getGenresListService():GetGenresService{
+        if (retrofit == null) {
+            retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .client(okHttpClient)
+                .build()
+        }
+        return retrofit!!.create(GetGenresService::class.java)
+    }
 }
