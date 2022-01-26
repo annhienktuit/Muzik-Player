@@ -22,6 +22,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import kotlin.concurrent.thread
+import android.content.ContextWrapper
+
+import android.app.Activity
+import com.example.awesomedialog.*
+
 
 class GenreItemAdapter(context: Context, var genreList: List<Genre>) :
     RecyclerView.Adapter<GenreItemAdapter.ViewHolder>() {
@@ -71,8 +76,25 @@ class GenreItemAdapter(context: Context, var genreList: List<Genre>) :
 
         init {
             itemView.setOnClickListener {
-                Toast.makeText(mContext, "Will be released in the next version", Toast.LENGTH_SHORT).show()
+                AwesomeDialog.build(getActivity(mContext)!!)
+                    .title("Feature not available", titleColor = ContextCompat.getColor(mContext, R.color.black))
+                    .body("Will be released in the next version", color = ContextCompat.getColor(mContext, R.color.black))
+                    .icon(R.drawable.ic_logo)
+                    .onPositive("OK")
             }
+        }
+
+        private fun getActivity(context: Context?): Activity? {
+            if (context == null) {
+                return null
+            } else if (context is ContextWrapper) {
+                return if (context is Activity) {
+                    context
+                } else {
+                    getActivity(context.baseContext)
+                }
+            }
+            return null
         }
     }
 }

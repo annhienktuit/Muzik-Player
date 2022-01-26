@@ -23,4 +23,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/spot_bg</item>
     </style>
+
+    <style name="GraphikFontTextStyle">
+        <item name="android:fontFamily">@font/graphiklight</item>
+    </style>
+
+    <style name="TabLayoutAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/graphikmedium</item>
+    </style>
 </resources>

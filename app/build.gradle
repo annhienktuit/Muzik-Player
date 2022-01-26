@@ -65,4 +65,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+    implementation 'com.github.chnouman:AwesomeDialog:1.0.5'
 }
