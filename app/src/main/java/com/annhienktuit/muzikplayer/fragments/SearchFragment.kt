@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
         for(genre in genresList.genres){
             if(genre.name != "All") genreList.add(genre)
         }
-        recyclerviewGenre?.adapter?.notifyDataSetChanged()
+        recyclerviewGenre.adapter?.notifyDataSetChanged()
     }
 
     private fun handleSuccess() {

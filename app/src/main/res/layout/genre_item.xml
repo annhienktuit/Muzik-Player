@@ -12,11 +12,12 @@
         android:id="@+id/tvGenreTitle"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="12dp"
         android:maxLines="2"
         android:text="News n Politics"
         android:fontFamily="@font/graphiksemibold"
-        android:textSize="16dp"/>
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
     <ImageView
         android:id="@+id/imgGenre"
