@@ -23,10 +23,9 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import kotlin.concurrent.thread
 
-class GenreItemAdapter(context: Context, genreList: List<Genre>) :
+class GenreItemAdapter(context: Context, var genreList: List<Genre>) :
     RecyclerView.Adapter<GenreItemAdapter.ViewHolder>() {
     private var mContext: Context = context
-    var genreList: List<Genre> = genreList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.genre_item, parent, false)
