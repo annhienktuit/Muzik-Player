@@ -115,6 +115,7 @@ class OnlineMusicFragment : Fragment() {
         recyclerviewTopTrack = view.findViewById(R.id.recyclerViewTopTracks)
         recyclerViewTrendingTracks = view.findViewById(R.id.recyclerviewTrending)
         swipeContainer = view.findViewById(R.id.swipeContainer)
+        swipeContainer.setColorSchemeColors(resources.getColor(R.color.spot_green))
     }
 
 }

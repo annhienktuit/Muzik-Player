@@ -21,7 +21,7 @@ import java.io.File
 
 class LocalMusicFragment : Fragment() {
 
-    private val sampleThumbnailArt = "https://static-zmp3.zadn.vn/skins/common/logo600.png"
+    private val sampleThumbnailArt = "https://photo-zmp3.zadn.vn/audio_default.png"
     private lateinit var recyclerViewLocalTrack: RecyclerView
     private lateinit var localTrackAdapter: RecyclerView.Adapter<LocalListAdapter.ViewHolder>
     private lateinit var localTrackList: ArrayList<LocalTrack>
@@ -38,7 +38,8 @@ class LocalMusicFragment : Fragment() {
         val context = view.context
         recyclerViewLocalTrack = view.findViewById(R.id.recyclerViewLocalTracks)
         localSwipeContainer = view.findViewById(R.id.localSwipeContainer)
-        localTrackList = ArrayList<LocalTrack>()
+        localSwipeContainer.setColorSchemeColors(resources.getColor(R.color.spot_green))
+        localTrackList = ArrayList()
         getAllAudioFromDevice(context)
         localTrackAdapter = LocalListAdapter(context, localTrackList)
         recyclerViewLocalTrack.layoutManager = LinearLayoutManager(context)
