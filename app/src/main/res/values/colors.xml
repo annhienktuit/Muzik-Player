@@ -17,4 +17,5 @@
     <color name="card_bg_5">#223160</color>
     <color name="card_bg_6">#75A768</color>
     <color name="spot_green">#1db954</color>
+    <color name="transparent">#00000000</color>
 </resources>
